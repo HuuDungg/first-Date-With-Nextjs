@@ -1,92 +1,69 @@
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const UserTable = () => {
     interface DataType {
-        key: string;
-        name: string;
-        age: number;
-        address: string;
-        tags: string[];
+        id: number,
+        id_role: number,
+        is_active: boolean,
+        name: string,
+        password: string,
+        sdt: string
     }
 
     const columns: TableProps<DataType>['columns'] = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'id',
+            dataIndex: 'id',
+            key: 'id',
             render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'Name',
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
+            title: 'Sdt',
+            dataIndex: 'sdt',
+            key: 'Sdt',
         },
         {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            title: 'Role',
+            dataIndex: 'id_role',
+            key: 'Role',
+            render: (_, record) => (
+                <div>{record.id_role === 1 ? "User" : "Admin"}</div>
+            )
+        },
+        {
+            title: 'Activate',
+            dataIndex: 'is_active',
+            key: 'Activate',
+            render: (_, record) => (
+                <div>{record.is_active ? "Activate" : "inActivate"}</div>
+            )
         },
         {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a>Invite {record.name}</a>
+                    <a>Detail</a>
                     <a>Delete</a>
                 </Space>
             ),
         },
     ];
 
-    const data: DataType[] = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sydney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
+
+
+    const [userList, setUserList] = useState([])
 
     useEffect(() => {
         const loadUsers = async () => {
-            const res = await fetch("http://127.0.0.1:8080/getAllItems", {
+            const res = await fetch("http://127.0.0.1:8080/getAllUser", {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -95,14 +72,14 @@ const UserTable = () => {
                     'Host': 'api.producthunt.com'
                 }
             })
-            const data = res.json()
+            const dataRes = await res.json()
+            setUserList(dataRes.listUser)
 
-            console.log("check data ", data)
         }
         loadUsers()
     }, [])
 
-    return (<Table columns={columns} dataSource={data} />)
+    return (<Table columns={columns} dataSource={userList} />)
 }
 
 export default UserTable
