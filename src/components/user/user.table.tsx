@@ -1,5 +1,6 @@
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
+import { useEffect } from 'react';
 
 const UserTable = () => {
     interface DataType {
@@ -82,6 +83,25 @@ const UserTable = () => {
             tags: ['cool', 'teacher'],
         },
     ];
+
+    useEffect(() => {
+        const loadUsers = async () => {
+            const res = await fetch("http://127.0.0.1:8080/getAllItems", {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMzcwNDg2NCwianRpIjoiNTM2Mjc0ODktMzBjOS00NGEzLWIzMDYtYjViZWU5MDgwNzRlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJpZCI6NCwicm9sZSI6Mn0sIm5iZiI6MTcyMzcwNDg2NCwiY3NyZiI6IjMzZTA3NDU3LTEzMTEtNDQwYS1hNjMzLTQ5NmUwZWJlMGJhZSIsImV4cCI6MTcyMzcwNjY2NH0.zKcSjS7m4Yh22RP5vEEK2jPKmrvF8ix4Xjx7ZAYxbo4',
+                    'Host': 'api.producthunt.com'
+                }
+            })
+            const data = res.json()
+
+            console.log("check data ", data)
+        }
+        loadUsers()
+    }, [])
+
     return (<Table columns={columns} dataSource={data} />)
 }
 

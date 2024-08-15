@@ -1,11 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import * as React from "react";
-import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Link,
 } from "react-router-dom";
 import UserTable from './components/user/user.table.tsx';
