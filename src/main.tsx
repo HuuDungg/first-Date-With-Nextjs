@@ -7,6 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import UserTable from './components/user/user.table.tsx';
+import HeaderAdmin from './components/header/header.tsx';
 
 const router = createBrowserRouter(
   [
@@ -24,11 +25,19 @@ const router = createBrowserRouter(
     },
     {
       path: "/home",
-      element: <App></App>
+      element:
+        <>
+          <HeaderAdmin></HeaderAdmin>
+          <App></App>
+        </>
     },
     {
       path: "/users",
-      element: <UserTable />
+      element:
+        <>
+          <HeaderAdmin></HeaderAdmin>
+          <UserTable />
+        </>
     },
     {
       path: "/subjects",

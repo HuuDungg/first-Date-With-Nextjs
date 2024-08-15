@@ -8,7 +8,6 @@ const UserTable = () => {
         id_role: number,
         is_active: boolean,
         name: string,
-        password: string,
         sdt: string
     }
 
@@ -59,7 +58,7 @@ const UserTable = () => {
 
 
 
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState<DataType[]>([])
 
     useEffect(() => {
         const loadUsers = async () => {
@@ -79,7 +78,12 @@ const UserTable = () => {
         loadUsers()
     }, [])
 
-    return (<Table columns={columns} dataSource={userList} />)
+    return (
+        <Table
+            columns={columns}
+            dataSource={userList.map(user => ({ ...user, key: user.id }))}
+        />
+    )
 }
 
 export default UserTable
