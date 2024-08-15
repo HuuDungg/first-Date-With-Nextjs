@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import UserTable from './components/user/user.table.tsx';
 import HeaderAdmin from './components/header/header.tsx';
+import UserMain from './components/user/user.main.tsx';
 
 const router = createBrowserRouter(
   [
@@ -35,8 +36,7 @@ const router = createBrowserRouter(
       path: "/users",
       element:
         <>
-          <HeaderAdmin></HeaderAdmin>
-          <UserTable />
+          <UserMain />
         </>
     },
     {
